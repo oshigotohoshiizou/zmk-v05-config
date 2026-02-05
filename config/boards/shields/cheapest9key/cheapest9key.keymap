@@ -1,0 +1,184 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+#define BASE   0
+#define TENKEY 1
+#define FN1    2
+#define FN2    3
+#define BLE    4
+
+/ {
+    behaviors {
+        // One-Shot Modifiers (Sticky Keys)
+        skq: sticky_key_quick {
+            compatible = "zmk,behavior-sticky-key";
+            #binding-cells = <1>;
+            bindings = <&kp>;
+            release-after-ms = <1000>;
+            quick-release;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+        timeout-ms = <50>;
+
+        // --- 基本操作 (Space, Enter, BS) ---
+        c_bs   { key-positions = <0 1 2>; bindings = <&kp BSPC>; };
+        c_del  { key-positions = <0 1 2 8>; bindings = <&kp DEL>; };
+        c_ent  { key-positions = <3 4 5>; bindings = <&kp RET>; };
+        c_spc  { key-positions = <6 7 8>; bindings = <&kp SPACE>; };
+
+        // --- アルファベット (Q-Z) ---
+        c_q { key-positions = <0 3>; bindings = <&kp Q>; };
+        c_w { key-positions = <0 4>; bindings = <&kp W>; };
+        c_r { key-positions = <0 1>; bindings = <&kp R>; };
+        c_t { key-positions = <0 2>; bindings = <&kp T>; };
+        c_y { key-positions = <1 4>; bindings = <&kp Y>; };
+        c_p { key-positions = <1 2>; bindings = <&kp P>; };
+        c_s { key-positions = <0 6>; bindings = <&kp S>; };
+        c_d { key-positions = <1 3>; bindings = <&kp D>; };
+        c_f { key-positions = <3 4>; bindings = <&kp F>; };
+        c_g { key-positions = <1 7>; bindings = <&kp G>; };
+        c_h { key-positions = <3 5>; bindings = <&kp H>; };
+        c_j { key-positions = <4 5>; bindings = <&kp J>; };
+        c_k { key-positions = <1 5>; bindings = <&kp K>; };
+        c_l { key-positions = <2 8>; bindings = <&kp L>; };
+        c_z { key-positions = <3 6>; bindings = <&kp Z>; };
+        c_x { key-positions = <4 6>; bindings = <&kp X>; };
+        c_c { key-positions = <6 7>; bindings = <&kp C>; };
+        c_v { key-positions = <6 8>; bindings = <&kp V>; };
+        c_b { key-positions = <4 7>; bindings = <&kp B>; };
+        c_n { key-positions = <7 8>; bindings = <&kp N>; };
+        c_m { key-positions = <5 8>; bindings = <&kp M>; };
+
+        // --- 数字 (1-0) ---
+        c_1 { key-positions = <0 1 3 4>; bindings = <&kp N1>; };
+        c_2 { key-positions = <1 2 4 5>; bindings = <&kp N2>; };
+        c_3 { key-positions = <3 4 6 7>; bindings = <&kp N3>; };
+        c_4 { key-positions = <4 5 7 8>; bindings = <&kp N4>; };
+        c_5 { key-positions = <1 3 4 5>; bindings = <&kp N5>; };
+        c_6 { key-positions = <0 1 3 4 6 7>; bindings = <&kp N6>; };
+        c_7 { key-positions = <1 2 4 5 7 8>; bindings = <&kp N7>; };
+        c_8 { key-positions = <0 1 2 3 4 5>; bindings = <&kp N8>; };
+        c_9 { key-positions = <3 4 5 6 7 8>; bindings = <&kp N9>; };
+        c_0 { key-positions = <4 6 7 8>; bindings = <&kp N0>; };
+
+        // --- 記号・括弧 (JIS配列を意識した出力) ---
+        c_lprn { key-positions = <0 1 3>; bindings = <&kp LS(N8)>; };
+        c_rprn { key-positions = <1 3 4>; bindings = <&kp LS(N9)>; };
+        c_lbrc { key-positions = <1 2 4>; bindings = <&kp LBKT>; };
+        c_rbrc { key-positions = <2 4 5>; bindings = <&kp RBKT>; };
+        c_slbrc { key-positions = <3 4 6>; bindings = <&kp LS(LBKT)>; };
+        c_srbrc { key-positions = <4 6 7>; bindings = <&kp LS(RBKT)>; };
+        c_comm  { key-positions = <0 1 5>; bindings = <&kp COMMA>; };
+        c_dot   { key-positions = <3 4 8>; bindings = <&kp DOT>; };
+        c_scomm { key-positions = <4 5 7>; bindings = <&kp LS(COMMA)>; };
+        c_sdot  { key-positions = <5 7 8>; bindings = <&kp LS(DOT)>; };
+        c_coln  { key-positions = <2 5 7>; bindings = <&kp SQT>; };
+        c_scln  { key-positions = <1 4 6>; bindings = <&kp SEMI>; };
+
+        // --- 数学記号・その他 ---
+        c_minus { key-positions = <4 5 6>; bindings = <&kp MINUS>; };
+        c_und   { key-positions = <3 7 8>; bindings = <&kp LS(INT1)>; };
+        c_plus  { key-positions = <1 3 5 7>; bindings = <&kp LS(MINUS)>; };
+        c_eql   { key-positions = <3 5 6 8>; bindings = <&kp LS(N0)>; };
+        c_plss  { key-positions = <2 4>; bindings = <&kp LS(SEMI)>; };
+        c_eqll  { key-positions = <2 5>; bindings = <&kp LS(MINUS)>; };
+        c_astr  { key-positions = <5 7>; bindings = <&kp LS(SQT)>; };
+        c_perc  { key-positions = <4 8>; bindings = <&kp LS(N5)>; };
+        c_at    { key-positions = <3 7>; bindings = <&kp LBKT>; };
+        c_exlm  { key-positions = <0 2 3 4>; bindings = <&kp LS(N1)>; };
+        c_ques  { key-positions = <5 6 7>; bindings = <&kp LS(SLASH)>; };
+        c_pipe  { key-positions = <1 4 7>; bindings = <&kp LS(INT3)>; };
+        c_slsh  { key-positions = <2 4 6>; bindings = <&kp SLASH>; };
+        c_bsls  { key-positions = <0 4 8>; bindings = <&kp INT1>; };
+        c_dqt   { key-positions = <1 2 7>; bindings = <&kp LS(N2)>; };
+        c_quot  { key-positions = <0 1 7>; bindings = <&kp LS(N7)>; };
+        c_grv   { key-positions = <4 6 8>; bindings = <&kp LS(AT)>; };
+        c_grv_s { key-positions = <0 1 8>; bindings = <&kp LS(LBKT)>; };
+        c_circ  { key-positions = <1 3 5>; bindings = <&kp EQUAL>; };
+        c_tild  { key-positions = <0 2 4>; bindings = <&kp LS(EQUAL)>; };
+
+        // --- ナビゲーション ---
+        c_home  { key-positions = <1 6>; bindings = <&kp HOME>; };
+        c_end   { key-positions = <0 7>; bindings = <&kp END>; };
+        c_pgup  { key-positions = <1 8>; bindings = <&kp PG_UP>; };
+        c_pgdn  { key-positions = <2 7>; bindings = <&kp PG_DN>; };
+        c_tab   { key-positions = <0 5>; bindings = <&kp TAB>; };
+        c_shftab { key-positions = <2 3>; bindings = <&kp LS(TAB)>; };
+        c_esc   { key-positions = <0 1 3 4 8>; bindings = <&kp ESC>; };
+        c_henk  { key-positions = <2 5 8>; bindings = <&kp INT4>; };
+        c_mhen  { key-positions = <0 3 6>; bindings = <&kp INT5>; };
+        c_undo  { key-positions = <3 8>; bindings = <&kp LC(Z)>; };
+        c_redo  { key-positions = <5 6>; bindings = <&kp LC(Y)>; };
+
+        // --- 修飾キー (Sticky) ---
+        c_sft { key-positions = <0 3 4>; bindings = <&skq LSHFT>; };
+        c_gui { key-positions = <1 4 5>; bindings = <&skq LGUI>; };
+        c_ctl { key-positions = <3 6 7>; bindings = <&skq LCTRL>; };
+        c_alt { key-positions = <4 7 8>; bindings = <&skq LALT>; };
+
+        // --- 修飾キー組み合わせ ---
+        c_sft_gui { key-positions = <0 1 3 4 5>; bindings = <&skq LG(LSHFT)>; };
+        c_sft_ctl { key-positions = <0 3 4 6 7>; bindings = <&skq LC(LSHFT)>; };
+        c_sft_alt { key-positions = <0 3 4 7 8>; bindings = <&skq LA(LSHFT)>; };
+        c_gui_ctl { key-positions = <1 3 4 5 6 7>; bindings = <&skq LC(LGUI)>; };
+        c_gui_alt { key-positions = <1 4 5 7 8>; bindings = <&skq LA(LGUI)>; };
+        c_ctl_alt { key-positions = <3 4 6 7 8>; bindings = <&skq LA(LCTRL)>; };
+
+        // --- レイヤー・システム ---
+        c_tk   { key-positions = <1 3 5 7>; bindings = <&tog TENKEY>; };
+        c_fn1  { key-positions = <0 1 3 4 6>; bindings = <&mo FN1>; };
+        c_fn2  { key-positions = <1 2 4 5 7>; bindings = <&mo FN2>; };
+        
+        // --- 無線設定レイヤー (0-2-6 E-I-Left トグル) ---
+        c_ble  { key-positions = <0 2 6>; bindings = <&tog BLE>; };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+                &kp E    &kp U    &kp I
+                &kp A    &kp UP   &kp O
+                &kp LEFT &kp DOWN &kp RIGHT
+            >;
+        };
+
+        tenkey_layer {
+            bindings = <
+                &kp KP_N7 &kp KP_N8 &kp KP_N9
+                &kp KP_N4 &kp KP_N5 &kp KP_N6
+                &kp KP_N1 &kp KP_N2 &kp KP_N3
+            >;
+        };
+
+        fn1_layer {
+            bindings = <
+                &kp F1 &kp F2 &kp F3
+                &kp F4 &kp F5 &kp F6
+                &kp F7 &kp F8 &kp F9
+            >;
+        };
+
+        fn2_layer {
+            bindings = <
+                &kp F10      &kp F11      &kp F12
+                &kp K_MUTE   &kp C_PP     &kp PSCRN
+                &kp INS      &kp CAPS     &kp LNLCK
+            >;
+        };
+
+        ble_layer {
+            bindings = <
+                &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2
+                &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR
+                &out OUT_BLE  &out OUT_USB  &tog BLE
+            >;
+        };
+    };
+};
